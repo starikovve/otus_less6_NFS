@@ -14,9 +14,9 @@ sudo chown -R nobody:nogroup /srv/share
 sudo chmod 0777 /srv/share/upload
 
 # Добавляем запись в /etc/exports
-# Экспортируем только для клиента 192.168.1.96
+# Экспортируем только для клиента 192.168.1.101
 cat << EOF | sudo tee /etc/exports
-/srv/share 192.168.1.96/32(rw,sync,root_squash)
+/srv/share 192.168.1.101/32(rw,sync,root_squash)
 EOF
 
 # Экспортируем директории
