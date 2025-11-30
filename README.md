@@ -6,7 +6,7 @@ Administrator Linux. Professional
 
 Создаём 2 виртуальные машины с сетевыми интерфейсами, которые позволяют связь между ними.
 
-Далее будем называть ВМ с NFS сервером nfss (IP 192.168.5.102), а ВМ с клиентом nfsc (IP 192.168.1.96).
+Далее будем называть ВМ с NFS сервером nfss (IP 192.168.5.102), а ВМ с клиентом nfsc (IP 192.168.1.101).
 
 Настраиваем сервер NFS:
 
@@ -17,7 +17,8 @@ apt install nfs-kernel-server
 
 ss -tnplu 
 
-<img width="1347" height="170" alt="image" src="https://github.com/user-attachments/assets/1e221357-00ba-4777-9513-d9fa59e749f4" />
+<img width="1368" height="181" alt="image" src="https://github.com/user-attachments/assets/ccca85b5-15dc-4668-9a42-1ea1db309bd8" />
+
 
 Создаём и настраиваем директорию, которая будет экспортирована в будущем 
 
@@ -31,14 +32,14 @@ root@nfss:~# chmod 0777 /srv/share/upload
 Cоздаём в файле /etc/exports структуру, которая позволит экспортировать ранее созданную директорию:
 
 root@nfss:~# cat << EOF > /etc/exports
-/srv/share 192.168.1.96/32(rw,sync,root_squash)
+/srv/share 192.168.1.101/32(rw,sync,root_squash)
 EOF
 
 Экспортируем ранее созданную директорию:
 
 root@nfss:~# exportfs -s
 
-<img width="1058" height="64" alt="image" src="https://github.com/user-attachments/assets/97287380-3cfe-45fd-84ab-90a57033d6d2" />
+<img width="1031" height="71" alt="image" src="https://github.com/user-attachments/assets/a8a919f6-5b8a-4014-986e-fee26ad79294" />
 
 
 Настраиваем клиент NFS 
@@ -56,6 +57,7 @@ echo "192.168.1.102:/srv/share/ /mnt nfs vers=3,noauto,x-systemd.automount 0 0" 
 и выполняем команды:
 
 root@nfsc:~# systemctl daemon-reload 
+
 root@nfsc:~# systemctl restart remote-fs.target 
 
 Отметим, что в данном случае происходит автоматическая генерация systemd units в каталоге /run/systemd/generator/, которые производят монтирование при первом обращении к каталогу /mnt/.
@@ -63,7 +65,8 @@ root@nfsc:~# systemctl restart remote-fs.target
 
 root@nfsc:~# mount | grep mnt 
 
-<img width="1016" height="63" alt="image" src="https://github.com/user-attachments/assets/b8f75e3b-3676-4b3f-b576-042ab8b73ad9" />
+<img width="1388" height="140" alt="image" src="https://github.com/user-attachments/assets/c7198c08-7366-491f-bb5f-ac6f4b2b7c27" />
+
 
 
 
