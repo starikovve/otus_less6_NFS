@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
   # Конфигурация клиента NFS
   config.vm.define "nfsc" do |nfsc|
     nfsc.vm.hostname = "nfsc"
-    nfsc.vm.network "private_network", ip: "192.168.1.96"
+    nfsc.vm.network "private_network", ip: "192.168.1.101"
     # Запуск скрипта настройки клиента
     nfsc.vm.provision "shell", path: "nfsc_script.sh"
 
